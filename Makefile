@@ -15,7 +15,7 @@ ifneq ($(findstring Darwin,$(OSTYPE)),)
 CFLAGS+=-D__APPLE__
 endif
 
-CFLAGS	+= -Wall -static -DLINUX
+CFLAGS	+= -Wall -DLINUX
 
 adprog.o: adprog.c $(GLOBAL_DEP)
 	$(CC) $(CDEBUG) $(CFLAGS) -c -o adprog.o adprog.c

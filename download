@@ -1,0 +1,38 @@
+# Download to LPCxxxx connected to RPi serial port 
+#
+#     ----------------        ------------------
+#    [ RPi            ]      [ LPCXpresso       ]
+#     ----------------        ------------------
+#    TX (pin P1.8)      <--> RX (pin J6.22, P0.3)
+#    RX (pin P1.10)     <--> TX (pin J6.21, P0.2)
+#    GND (pin P1.6)     <--> GND (pin J6.1)
+#    +5V (pin P1.2)     <--> EXT_POWX (pin J6.2)
+#    GPIO18 (pin P1.12) <--> RESET_N (pin J6.4)
+#    GPIO23 (pin P1.16) <--> P2.10 (Pin J6.51)
+#
+#
+
+# export the GPIO to the shell:
+echo "18" > /sys/class/gpio/export
+echo "23" > /sys/class/gpio/export
+echo "out" > /sys/class/gpio/gpio18/direction  
+echo "out" > /sys/class/gpio/gpio23/direction
+
+# enable ISP
+echo "0" > /sys/class/gpio/gpio23/value
+
+# issue reset
+echo "1" > /sys/class/gpio/gpio18/value
+echo "0" > /sys/class/gpio/gpio18/value
+echo "1" > /sys/class/gpio/gpio18/value
+
+# disable ISP line
+echo "1" > /sys/class/gpio/gpio23/value
+
+./lpc21isp -bin $1 /dev/ttyAMA0 115200 12000
+
+
+
+
+
+
